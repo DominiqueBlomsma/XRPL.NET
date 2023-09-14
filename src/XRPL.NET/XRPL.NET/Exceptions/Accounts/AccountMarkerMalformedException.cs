@@ -5,8 +5,11 @@
 /// </summary>
 public class AccountMarkerMalformedException : XrplException
 {
-    internal AccountMarkerMalformedException(XrplException exception) : base(exception.ErrorCode, exception.Error, exception.ErrorMessage)
+    internal AccountMarkerMalformedException(string account, XrplException exception) : 
+        base(exception.ErrorCode, exception.Error, exception.ErrorMessage, $"Account: {account}")
     {
-
+        Account = account;
     }
+
+    public string Account { get; set; }
 }

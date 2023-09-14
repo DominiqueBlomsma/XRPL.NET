@@ -36,4 +36,9 @@ public class Ledger : Dictionary<string, object>
     {
         Add("ledger_index", type);
     }
+
+    public override string ToString()
+    {
+        return string.Join(", ", this.Select(x => $"{x.Key}: {x.Value}"));
+    }
 }

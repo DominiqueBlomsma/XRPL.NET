@@ -5,8 +5,11 @@
 /// </summary>
 public class AccountNotFoundException : XrplException
 {
-    internal AccountNotFoundException(XrplException exception) : base(exception.ErrorCode, exception.Error, exception.ErrorMessage)
+    internal AccountNotFoundException(string account, XrplException exception) : 
+        base(exception.ErrorCode, exception.Error, exception.ErrorMessage, $"Account: {account}")
     {
-
+        Account = account;
     }
+
+    public string Account { get; set; }
 }

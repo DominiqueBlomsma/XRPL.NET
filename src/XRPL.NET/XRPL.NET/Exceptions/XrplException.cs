@@ -2,8 +2,8 @@
 
 public class XrplException : Exception
 {
-    public XrplException(int? errorCode, string? error, string? errorMessage)
-        : base($"ErrorCode: {errorCode}, Error: {error}, ErrorMessage: {errorMessage}")
+    public XrplException(int? errorCode, string? error, string? errorMessage, string? customErrorMessage = null)
+        : base($"ErrorCode: {errorCode}, Error: {error}, ErrorMessage: {errorMessage}{(!string.IsNullOrWhiteSpace(customErrorMessage) ? $", {customErrorMessage}" : string.Empty)}")
     {
         ErrorCode = errorCode;
         Error = error;

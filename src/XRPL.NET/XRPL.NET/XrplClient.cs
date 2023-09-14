@@ -53,9 +53,9 @@ public class XrplClient : IXrplClient
                 case "invalidParams":
                     throw new InvalidParametersException(ex);
                 case "actNotFound":
-                    throw new AccountNotFoundException(ex);
+                    throw new AccountNotFoundException(request.Account, ex);
                 case "lgrNotFound":
-                    throw new LedgerNotFoundException(ex);
+                    throw new LedgerNotFoundException(request.Ledger!, ex);
                 default:
                     throw;
             }
@@ -78,11 +78,11 @@ public class XrplClient : IXrplClient
                 case "invalidParams":
                     throw new InvalidParametersException(ex);
                 case "actNotFound":
-                    throw new AccountNotFoundException(ex);
+                    throw new AccountNotFoundException(request.Account, ex);
                 case "lgrNotFound":
-                    throw new LedgerNotFoundException(ex);
+                    throw new LedgerNotFoundException(request.Ledger!, ex);
                 case "actMalformed":
-                    throw new AccountMarkerMalformedException(ex);
+                    throw new AccountMarkerMalformedException(request.Account, ex);
                 default:
                     throw;
             }
@@ -105,9 +105,9 @@ public class XrplClient : IXrplClient
                 case "invalidParams":
                     throw new InvalidParametersException(ex);
                 case "actNotFound":
-                    throw new AccountNotFoundException(ex);
+                    throw new AccountNotFoundException(request.Account, ex);
                 case "lgrNotFound":
-                    throw new LedgerNotFoundException(ex);
+                    throw new LedgerNotFoundException(request.Ledger!, ex);
                 default:
                     throw;
             }
@@ -130,9 +130,9 @@ public class XrplClient : IXrplClient
                 case "invalidParams":
                     throw new InvalidParametersException(ex);
                 case "actNotFound":
-                    throw new AccountNotFoundException(ex);
+                    throw new AccountNotFoundException(request.Account, ex);
                 case "actMalformed":
-                    throw new AccountMarkerMalformedException(ex);
+                    throw new AccountMarkerMalformedException(request.Account, ex);
                 default:
                     throw;
             }
@@ -178,7 +178,7 @@ public class XrplClient : IXrplClient
                 case "entryNotFound":
                     throw new EntryNotFoundException(ex);
                 case "lgrNotFound":
-                    throw new LedgerNotFoundException(ex);
+                    throw new LedgerNotFoundException(request.Ledger!, ex);
                 default:
                     throw;
             }
