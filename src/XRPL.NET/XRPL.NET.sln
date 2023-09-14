@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33627.172
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XRPL.NET", "XRPL.NET\XRPL.NET.csproj", "{261F95E6-2EB0-45B5-9B38-35936303977B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{261F95E6-2EB0-45B5-9B38-35936303977B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{261F95E6-2EB0-45B5-9B38-35936303977B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{261F95E6-2EB0-45B5-9B38-35936303977B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{261F95E6-2EB0-45B5-9B38-35936303977B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9D964B3F-7822-48BA-8AAB-4203293DC5A3}
+	EndGlobalSection
+EndGlobal
