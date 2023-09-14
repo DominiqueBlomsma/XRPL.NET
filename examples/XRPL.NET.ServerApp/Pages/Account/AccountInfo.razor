@@ -1,0 +1,56 @@
+﻿@page "/accountinfo"
+@using XRPL.NET.Models.Methods.Accounts
+@using XRPL.NET.Enums
+
+@inject IXrplClient XrplClient
+
+<PageTitle>Account Info</PageTitle>
+
+<ResponseAlertBox @ref="_responseAlertBox"></ResponseAlertBox>
+
+<h1>Account Info</h1>
+
+<div class="row">
+    <div class="col-xl-6">
+        <div class="mb-3">
+            <div class="input-group">
+                <input id="account" type="text" class="form-control" placeholder="Account address" aria-label="Account" aria-describedby="basic-addon2" @bind="_account">
+                <button class="btn btn-primary" type="button" @onclick="() => GetAccountInfoAsync(XrplProtocol.WebSocket)">WebSocket</button>
+                <button class="btn btn-secondary" type="button" @onclick="() => GetAccountInfoAsync(XrplProtocol.JsonRpc)">JSON RPC</button>
+            </div>
+        </div>
+    </div>
+
+    @if (_accountInfo != null)
+    {
+        <div class="col-xl-6">
+            <div class="mb-3">
+                <dl class="row">
+                    <dt class="col-6">Account</dt>
+                    <dd class="col-6 text-break">@_accountInfo.AccountData.Account</dd>
+                    <dt class="col-6">Regular Key</dt>
+                    <dd class="col-6 text-break">@_accountInfo.AccountData.RegularKey</dd>
+                    <dt class="col-6">Balance</dt>
+                    <dd class="col-6 text-break">@_accountInfo.AccountData.Balance?.ValueAsNumber</dd>
+                </dl>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private ResponseAlertBox? _responseAlertBox;
+    private string _account = default!;
+    private AccountInfoResponse? _accountInfo;
+
+    private async Task GetAccountInfoAsync(XrplProtocol protocol)
+    {
+        if (string.IsNullOrWhiteSpace(_account))
+        {
+            return;
+        }
+
+        _accountInfo = await _responseAlertBox!.GetResponseAndSetAlertAsync(() => XrplClient.GetAccountInfo(protocol, new AccountInfoRequest(_account), CancellationToken.None));
+        _responseAlertBox.SetAlert("Account Info", _accountInfo != null);
+    }
+}

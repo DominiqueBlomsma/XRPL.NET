@@ -1,0 +1,61 @@
+﻿<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="">XRPL.NET Blazor App</a>
+        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</div>
+
+<div class="@NavMenuCssClass">
+    <nav class="flex-column">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Home
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" @onclick='(() => ToggleSubNavMenu("Account"))'>
+                <span class="oi oi-chevron-@(IsSubNavMenuExpanded("Account") ? "bottom": "right")" aria-hidden="true"></span> Account
+            </NavLink>
+            @if (IsSubNavMenuExpanded("Account"))
+            {
+                <NavLink class="nav-link ps-4" href="/accountinfo">
+                    <span class="oi oi-person" aria-hidden="true"></span> Account Info
+                </NavLink>
+               
+            }
+        </div>
+    </nav>
+</div>
+
+@code {
+    private bool _collapseNavMenu = true;
+    private string? _expandedSubNavMenu;
+    private string? NavMenuCssClass => _collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        _collapseNavMenu = !_collapseNavMenu;
+        _expandedSubNavMenu = null;
+    }
+
+    private void ToggleSubNavMenu(string subNavMenu)
+    {
+        if (_expandedSubNavMenu != subNavMenu)
+        {
+            _expandedSubNavMenu = subNavMenu;
+        }
+        else
+        {
+            _expandedSubNavMenu = null;
+        }
+
+        _collapseNavMenu = false;
+    }
+
+    private bool IsSubNavMenuExpanded(string subNavMenu)
+    {
+        return _expandedSubNavMenu == subNavMenu;
+    }
+}

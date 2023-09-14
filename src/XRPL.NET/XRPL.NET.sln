@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XRPL.NET", "XRPL.NET\XRPL.NET.csproj", "{261F95E6-2EB0-45B5-9B38-35936303977B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XRPL.NET", "XRPL.NET\XRPL.NET.csproj", "{261F95E6-2EB0-45B5-9B38-35936303977B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{4C74C1CB-0739-45AA-BE10-C1BCC5BCDE4F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{2389EB10-EF6A-4A80-9812-74E45F83E0CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XRPL.NET.ServerApp", "..\..\examples\XRPL.NET.ServerApp\XRPL.NET.ServerApp.csproj", "{2E7A8D1C-B483-4332-A2DF-4FC7162D40D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +21,17 @@ Global
 		{261F95E6-2EB0-45B5-9B38-35936303977B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{261F95E6-2EB0-45B5-9B38-35936303977B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{261F95E6-2EB0-45B5-9B38-35936303977B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E7A8D1C-B483-4332-A2DF-4FC7162D40D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E7A8D1C-B483-4332-A2DF-4FC7162D40D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E7A8D1C-B483-4332-A2DF-4FC7162D40D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E7A8D1C-B483-4332-A2DF-4FC7162D40D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{261F95E6-2EB0-45B5-9B38-35936303977B} = {4C74C1CB-0739-45AA-BE10-C1BCC5BCDE4F}
+		{2E7A8D1C-B483-4332-A2DF-4FC7162D40D6} = {2389EB10-EF6A-4A80-9812-74E45F83E0CE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9D964B3F-7822-48BA-8AAB-4203293DC5A3}
