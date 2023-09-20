@@ -8,6 +8,7 @@ using XRPL.NET.Enums;
 using XRPL.NET.EventArgs;
 using XRPL.NET.Exceptions;
 using XRPL.NET.Helpers;
+using XRPL.NET.Models;
 using XRPL.NET.Models.Methods.Accounts;
 using XRPL.NET.Models.Methods.Ledger;
 using XRPL.NET.Models.Methods.ServerInfo;
@@ -25,7 +26,7 @@ public class XrplClient : IXrplClient
     private readonly ILogger<XrplClient> _logger;
 
     private readonly CancellationTokenSource _cancellationTokenSource = new();
-    private readonly ConcurrentDictionary<XrplProtocol, IXrplProtocolClient> _clients = new();
+    private readonly ConcurrentDictionary<string, IXrplProtocolClient> _clients = new();
 
     public XrplClient(
         IOptions<XrplClientConfig> options,
@@ -38,11 +39,11 @@ public class XrplClient : IXrplClient
     #region Account Methods
 
     /// <inheritdoc />
-    public async Task<AccountInfoResponse> GetAccountInfo(XrplProtocol protocol, AccountInfoRequest request, CancellationToken token)
+    public async Task<AccountInfoResponse> GetAccountInfo(XrplNetworkSettings networkSettings, AccountInfoRequest request, CancellationToken token)
     {
         try
         {
-            return await GetResponseAsync<AccountInfoResponse>(protocol, "account_info", request, token);
+            return await GetResponseAsync<AccountInfoResponse>(networkSettings, "account_info", request, token);
         }
         catch (XrplException ex)
         {
@@ -63,11 +64,11 @@ public class XrplClient : IXrplClient
     }
 
     /// <inheritdoc />
-    public async Task<AccountLinesResponse> GetAccountLines(XrplProtocol protocol, AccountLinesRequest request, CancellationToken token)
+    public async Task<AccountLinesResponse> GetAccountLines(XrplNetworkSettings networkSettings, AccountLinesRequest request, CancellationToken token)
     {
         try
         {
-            return await GetResponseAsync<AccountLinesResponse>(protocol, "account_lines", request, token);
+            return await GetResponseAsync<AccountLinesResponse>(networkSettings, "account_lines", request, token);
         }
         catch (XrplException ex)
         {
@@ -90,11 +91,11 @@ public class XrplClient : IXrplClient
     }
 
     /// <inheritdoc />
-    public async Task<AccountObjectsResponse> GetAccountObjects(XrplProtocol protocol, AccountObjectsRequest request, CancellationToken token)
+    public async Task<AccountObjectsResponse> GetAccountObjects(XrplNetworkSettings networkSettings, AccountObjectsRequest request, CancellationToken token)
     {
         try
         {
-            return await GetResponseAsync<AccountObjectsResponse>(protocol, "account_objects", request, token);
+            return await GetResponseAsync<AccountObjectsResponse>(networkSettings, "account_objects", request, token);
         }
         catch (XrplException ex)
         {
@@ -115,11 +116,11 @@ public class XrplClient : IXrplClient
     }
 
     /// <inheritdoc />
-    public async Task<AccountTxResponse> GetAccountTransactions(XrplProtocol protocol, AccountTxRequest request, CancellationToken token)
+    public async Task<AccountTxResponse> GetAccountTransactions(XrplNetworkSettings networkSettings, AccountTxRequest request, CancellationToken token)
     {
         try
         {
-            return await GetResponseAsync<AccountTxResponse>(protocol, "account_tx", request, token);
+            return await GetResponseAsync<AccountTxResponse>(networkSettings, "account_tx", request, token);
         }
         catch (XrplException ex)
         {
@@ -144,11 +145,11 @@ public class XrplClient : IXrplClient
     #region Ledger Methods
 
     /// <inheritdoc />
-    public async Task<LedgerResponse> GetLedgerAsync(XrplProtocol protocol, LedgerRequest request, CancellationToken token)
+    public async Task<LedgerResponse> GetLedgerAsync(XrplNetworkSettings networkSettings, LedgerRequest request, CancellationToken token)
     {
         try
         {
-            return await GetResponseAsync<LedgerResponse>(protocol, "ledger", request, token);
+            return await GetResponseAsync<LedgerResponse>(networkSettings, "ledger", request, token);
         }
         catch (XrplException ex)
         {
@@ -160,11 +161,11 @@ public class XrplClient : IXrplClient
     }
 
     /// <inheritdoc />
-    public async Task<LedgerEntryResponse> GetLedgerEntryAsync(XrplProtocol protocol, LedgerEntryRequest request, CancellationToken token)
+    public async Task<LedgerEntryResponse> GetLedgerEntryAsync(XrplNetworkSettings networkSettings, LedgerEntryRequest request, CancellationToken token)
     {
         try
         {
-            return await GetResponseAsync<LedgerEntryResponse>(protocol, "ledger_entry", request, token);
+            return await GetResponseAsync<LedgerEntryResponse>(networkSettings, "ledger_entry", request, token);
         }
         catch (XrplException ex)
         {
@@ -189,11 +190,11 @@ public class XrplClient : IXrplClient
 
     #region Transaction Methods
 
-    public async Task<SubmitResponse> SubmitAsync(XrplProtocol protocol, SubmitRequest request, CancellationToken token)
+    public async Task<SubmitResponse> SubmitAsync(XrplNetworkSettings networkSettings, SubmitRequest request, CancellationToken token)
     {
         try
         {
-            return await GetResponseAsync<SubmitResponse>(protocol, "submit", request, token);
+            return await GetResponseAsync<SubmitResponse>(networkSettings, "submit", request, token);
         }
         catch (XrplException ex)
         {
@@ -204,11 +205,11 @@ public class XrplClient : IXrplClient
         }
     }
 
-    public async Task<TransactionResponse> TransactionAsync(XrplProtocol protocol, TransactionRequest request, CancellationToken token)
+    public async Task<TransactionResponse> TransactionAsync(XrplNetworkSettings networkSettings, TransactionRequest request, CancellationToken token)
     {
         try
         {
-            return await GetResponseAsync<TransactionResponse>(protocol, "tx", request, token);
+            return await GetResponseAsync<TransactionResponse>(networkSettings, "tx", request, token);
         }
         catch (XrplException ex)
         {
@@ -223,11 +224,11 @@ public class XrplClient : IXrplClient
 
     #region Server Info Methods
 
-    public async Task<FeeResponse> GetFeeAsync(XrplProtocol protocol, FeeRequest request, CancellationToken token)
+    public async Task<FeeResponse> GetFeeAsync(XrplNetworkSettings networkSettings, FeeRequest request, CancellationToken token)
     {
         try
         {
-            return await GetResponseAsync<FeeResponse>(protocol, "fee", request, token);
+            return await GetResponseAsync<FeeResponse>(networkSettings, "fee", request, token);
         }
         catch (XrplException ex)
         {
@@ -238,11 +239,11 @@ public class XrplClient : IXrplClient
         }
     }
 
-    public async Task<ServerDefinitionsResponse> GetServerDefinitionsAsync(XrplProtocol protocol, CancellationToken token)
+    public async Task<ServerDefinitionsResponse> GetServerDefinitionsAsync(XrplNetworkSettings networkSettings, CancellationToken token)
     {
         try
         {
-            return await GetResponseAsync<ServerDefinitionsResponse>(protocol, "server_definitions", default, token, new JsonSerializerOptions
+            return await GetResponseAsync<ServerDefinitionsResponse>(networkSettings, "server_definitions", default, token, new JsonSerializerOptions
             {
                 Converters = { new FieldElementConverter() }
             });
@@ -256,11 +257,11 @@ public class XrplClient : IXrplClient
         }
     }
 
-    public async Task<ServerStateResponse> GetServerStateAsync(XrplProtocol protocol, CancellationToken token)
+    public async Task<ServerStateResponse> GetServerStateAsync(XrplNetworkSettings networkSettings, CancellationToken token)
     {
         try
         {
-            return await GetResponseAsync<ServerStateResponse>(protocol, "server_state", default, token);
+            return await GetResponseAsync<ServerStateResponse>(networkSettings, "server_state", default, token);
         }
         catch (XrplException ex)
         {
@@ -275,12 +276,13 @@ public class XrplClient : IXrplClient
 
     #region Subscription Methods
 
-    public async Task SubscribeAsync(SubscribeRequest request, EventHandler<SubscriptionEventArgs> eventHandler, CancellationToken token)
+    public async Task SubscribeAsync(XrplWebSocketSettings webSocketSettings, SubscribeRequest request, EventHandler<SubscriptionEventArgs> eventHandler, CancellationToken token)
     {
         try
         {
             var linked = GetLinkedCancellationToken(token);
-            using var client = new WebSocketListenerClient(_config.WebSocketUri, _cancellationTokenSource, _logger);
+            var networkUrl = GetNetworkUrl(webSocketSettings);
+            using var client = new WebSocketListenerClient(new Uri(networkUrl), _cancellationTokenSource, _logger);
             await foreach (var message in client.GetResponses("subscribe", request, linked).WithCancellation(linked))
             {
                 eventHandler(this,
@@ -309,31 +311,44 @@ public class XrplClient : IXrplClient
         return source.Token;
     }
 
-    private async Task<T> GetResponseAsync<T>(XrplProtocol protocol, string command, object? request, CancellationToken? token, JsonSerializerOptions? options = null) where T : class
+    private async Task<T> GetResponseAsync<T>(XrplNetworkSettings networkSettings, string command, object? request, CancellationToken? token, JsonSerializerOptions? options = null) where T : class
     {
-        var client = GetClient(protocol);
+        var client = GetClient(networkSettings);
         var linked = GetLinkedCancellationToken(token);
         options ??= XrplJsonHelper.SerializerOptions;
 
         return await client.GetResponse<T>(command, request, options, linked);
     }
 
-    private IXrplProtocolClient GetClient(XrplProtocol protocol)
+    private IXrplProtocolClient GetClient(XrplNetworkSettings networkSettings)
     {
-        if (!_clients.TryGetValue(protocol, out var client))
+        if (!_clients.TryGetValue(networkSettings.ClientKey, out var client))
         {
-            // TODO: Config URL validations
-            client = protocol switch
+            var networkUrl = GetNetworkUrl(networkSettings);
+            client = networkSettings.Protocol switch
             {
-                XrplProtocol.JsonRpc => new JsonRpcClient(_config.JsonRpcUri, _logger),
-                XrplProtocol.WebSocket => new WebSocketClient(_config.WebSocketUri, _cancellationTokenSource, _logger),
-                _ => throw new ArgumentOutOfRangeException(nameof(protocol), protocol, $"Unknown XRPL protocol: {protocol}")
+                XrplProtocol.JsonRpc => new JsonRpcClient(new Uri(networkUrl), _logger),
+                XrplProtocol.WebSocket => new WebSocketClient(new Uri(networkUrl), _cancellationTokenSource, _logger),
+                _ => throw new ArgumentOutOfRangeException(nameof(networkSettings), networkSettings.Protocol, $"Unknown XRPL protocol: {networkSettings.Protocol}")
             };
 
-            _clients.TryAdd(protocol, client);
+            _clients.TryAdd(networkSettings.ClientKey, client);
         }
 
         return client;
+    }
+
+    private string GetNetworkUrl(XrplNetworkSettings networkSettings)
+    {
+        var networkUrl = _config.GetNetworkUrl(networkSettings.NetworkKey, networkSettings.Protocol);
+        networkUrl ??= networkSettings.NetworkUrl;
+
+        if (string.IsNullOrWhiteSpace(networkUrl))
+        {
+            throw new InvalidOperationException($"Missing {networkSettings.Protocol} URI of network with Key: {networkSettings.NetworkKey}");
+        }
+
+        return networkUrl;
     }
 
     public void Dispose()
