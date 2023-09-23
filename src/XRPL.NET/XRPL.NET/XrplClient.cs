@@ -322,7 +322,8 @@ public class XrplClient : IXrplClient
 
     private IXrplProtocolClient GetClient(XrplNetworkSettings networkSettings)
     {
-        if (!_clients.TryGetValue(networkSettings.ClientKey, out var client))
+        var clientKey = $"{networkSettings.NetworkId}-{networkSettings.Protocol}";
+        if (!_clients.TryGetValue(clientKey, out var client))
         {
             var networkUrl = GetNetworkUrl(networkSettings);
             client = networkSettings.Protocol switch
@@ -332,7 +333,7 @@ public class XrplClient : IXrplClient
                 _ => throw new ArgumentOutOfRangeException(nameof(networkSettings), networkSettings.Protocol, $"Unknown XRPL protocol: {networkSettings.Protocol}")
             };
 
-            _clients.TryAdd(networkSettings.ClientKey, client);
+            _clients.TryAdd(clientKey, client);
         }
 
         return client;
@@ -340,12 +341,12 @@ public class XrplClient : IXrplClient
 
     private string GetNetworkUrl(XrplNetworkSettings networkSettings)
     {
-        var networkUrl = _config.GetNetworkUrl(networkSettings.NetworkKey, networkSettings.Protocol);
+        var networkUrl = _config.GetNetworkUrl(networkSettings.NetworkId, networkSettings.Protocol);
         networkUrl ??= networkSettings.NetworkUrl;
 
         if (string.IsNullOrWhiteSpace(networkUrl))
         {
-            throw new InvalidOperationException($"Missing {networkSettings.Protocol} URI of network with Key: {networkSettings.NetworkKey}");
+            throw new InvalidOperationException($"Missing {networkSettings.Protocol} URI of network with Key: {networkSettings.NetworkId}");
         }
 
         return networkUrl;

@@ -8,11 +8,11 @@ public class XrplClientConfig
 
     public Dictionary<string, XrplClientNetworkConfig>? Networks { get; set; }
 
-    public string? GetNetworkUrl(string networkKey, XrplProtocol protocol)
+    public string? GetNetworkUrl(int networkId, XrplProtocol protocol)
     {
         string? url = null;
 
-        if (Networks?.TryGetValue(networkKey, out var networkConfig) ?? false)
+        if (Networks?.TryGetValue(networkId.ToString(), out var networkConfig) ?? false)
         {
             url = protocol switch
             {

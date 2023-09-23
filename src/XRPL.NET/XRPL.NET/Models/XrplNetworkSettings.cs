@@ -4,17 +4,14 @@ namespace XRPL.NET.Models;
 
 public class XrplNetworkSettings
 {
-    public XrplNetworkSettings(string networkKey, XrplProtocol protocol, string? networkUrl = null)
+    public XrplNetworkSettings(int networkId, XrplProtocol protocol, string? networkUrl = null)
     {
-        NetworkKey = networkKey;
+        NetworkId = networkId;
         Protocol = protocol;
         NetworkUrl = networkUrl;
-        ClientKey = $"{networkKey}-{protocol}";
     }
 
-    public string NetworkKey { get; }
+    public int NetworkId { get; }
     public XrplProtocol Protocol { get; }
     public string? NetworkUrl { get; }
-
-    internal string ClientKey { get; }
 }
