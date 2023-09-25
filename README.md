@@ -17,6 +17,7 @@ An account in the XRP Ledger represents a holder of XRP and a sender of transact
 |   | account_currencies | Get a list of currencies an account can send or receive.                                          |
 |✅| account_info       | Get basic data about an account.                                                                  |
 |✅| account_lines      | Get info about an account's trust lines.                                                          |
+|✅| account_namespace    | Get the Hook State Objects on a particular account in a particular namespace.                  |
 |   | account_nfts       | Get a list of all NFTs for an account.                                                            |
 |✅| account_objects    | Get all ledger objects owned by an account.                                                       |
 |   | account_offers     | Get info about an account's currency exchange offers.                                            |

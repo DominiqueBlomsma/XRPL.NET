@@ -91,6 +91,31 @@ public class XrplClient : IXrplClient
     }
 
     /// <inheritdoc />
+    public async Task<AccountNamespaceResponse> GetAccountNamespace(XrplNetworkSettings networkSettings, AccountNamespaceRequest request, CancellationToken token)
+    {
+        try
+        {
+            return await GetResponseAsync<AccountNamespaceResponse>(networkSettings, "account_namespace", request, token);
+        }
+        catch (XrplException ex)
+        {
+            _logger.LogTrace(ex, "Failed to retrieve account namespace with request {@Request}.", request);
+
+            switch (ex.Error)
+            {
+                case "invalidParams":
+                    throw new InvalidParametersException(ex);
+                case "actNotFound":
+                    throw new AccountNotFoundException(request.Account, ex);
+                case "lgrNotFound":
+                    throw new LedgerNotFoundException(request.Ledger!, ex);
+                default:
+                    throw;
+            }
+        }
+    }
+
+    /// <inheritdoc />
     public async Task<AccountObjectsResponse> GetAccountObjects(XrplNetworkSettings networkSettings, AccountObjectsRequest request, CancellationToken token)
     {
         try

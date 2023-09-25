@@ -32,8 +32,17 @@ public interface IXrplClient : IDisposable
     Task<AccountLinesResponse> GetAccountLines(XrplNetworkSettings networkSettings, AccountLinesRequest request, CancellationToken token);
 
     /// <summary>
-    /// The account_objects command retrieves objectsrmation about an account, its activity, and its XRP balance.
-    /// All objectsrmation retrieved is relative to a particular version of the ledger.
+    /// Use the account_namespace websocket API to query the Hook State Objects on a particular account in a particular namespace.
+    /// </summary>
+    /// <param name="token">The <see cref="CancellationToken">CancellationToken</see> to observe.</param>
+    /// <exception cref="InvalidParametersException">One or more fields are specified incorrectly, or one or more required fields are missing.</exception>
+    /// <exception cref="AccountNotFoundException">The address specified in the account field of the request does not correspond to an account in the ledger.</exception>
+    /// <exception cref="LedgerNotFoundException">The ledger specified by the ledger_hash or ledger_index does not exist, or it does exist but the server does not have it.</exception>
+    Task<AccountNamespaceResponse> GetAccountNamespace(XrplNetworkSettings networkSettings, AccountNamespaceRequest request, CancellationToken token);
+
+    /// <summary>
+    /// The account_objects command retrieves objects information about an account, its activity, and its XRP balance.
+    /// All objects information retrieved is relative to a particular version of the ledger.
     /// </summary>
     /// <param name="token">The <see cref="CancellationToken">CancellationToken</see> to observe.</param>
     /// <exception cref="InvalidParametersException">One or more fields are specified incorrectly, or one or more required fields are missing.</exception>
