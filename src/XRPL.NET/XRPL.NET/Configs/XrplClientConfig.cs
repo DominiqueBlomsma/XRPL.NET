@@ -8,7 +8,7 @@ public class XrplClientConfig
 
     public Dictionary<string, XrplClientNetworkConfig>? Networks { get; set; }
 
-    public string? GetNetworkUrl(int networkId, XrplProtocol protocol)
+    public string? GetNetworkUrl(uint networkId, XrplProtocol protocol)
     {
         string? url = null;
 

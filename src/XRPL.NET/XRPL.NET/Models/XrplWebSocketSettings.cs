@@ -4,7 +4,7 @@ namespace XRPL.NET.Models;
 
 public class XrplWebSocketSettings : XrplNetworkSettings
 {
-    public XrplWebSocketSettings(int networkId, string? networkUrl = null) : base(networkId, XrplProtocol.WebSocket, networkUrl)
+    public XrplWebSocketSettings(uint networkId, string? networkUrl = null) : base(networkId, XrplProtocol.WebSocket, networkUrl)
     {
         
     }
