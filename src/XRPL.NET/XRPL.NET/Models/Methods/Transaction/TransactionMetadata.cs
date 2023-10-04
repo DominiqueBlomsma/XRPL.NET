@@ -18,6 +18,13 @@ public class TransactionMetadata
     public JsonArray AffectedNodes { get; set; } = default!; // TODO: Create strongly typed models
 
     /// <summary>
+    /// When Hooks execute they leave behind information about the status of that execution.
+    /// This appears in the Originating Transaction metadata as an sfHookExecutions block.
+    /// </summary>
+    [JsonPropertyName("HookExecutions")]
+    public List<HookExecutionMetadata>? HookExecutions { get; set; }
+
+    /// <summary>
     /// Integer	The transaction's position within the ledger that included it. This is zero-indexed. (For example, the value 2 means it was the 3rd transaction in that ledger.)
     /// </summary>
     [JsonPropertyName("TransactionIndex")]
