@@ -25,11 +25,11 @@ public class Currency
     public string Value { get; set; } = default!;
 
     [JsonIgnore]
-    public decimal ValueAsNumber => IsXrpValue ? XrplCurrencyHelper.StringDropsToDecimal(Value) : XrplCurrencyHelper.StringValueToDecimal(Value);
+    public decimal ValueAsNumber => IsNativeTokenValue ? XrplCurrencyHelper.StringDropsToDecimal(Value) : XrplCurrencyHelper.StringValueToDecimal(Value);
 
     [JsonIgnore]
-    public ulong Drops => IsXrpValue ? XrplCurrencyHelper.StringDropsToULong(Value) : throw new InvalidOperationException("Currency value is not XRP");
+    public ulong Drops => IsNativeTokenValue ? XrplCurrencyHelper.StringDropsToULong(Value) : throw new InvalidOperationException("Currency value is not XRP");
 
     [JsonIgnore]
-    public bool IsXrpValue => string.IsNullOrWhiteSpace(CurrencyCode) || CurrencyCode.Equals(XrplHelper.XRP);
+    public bool IsNativeTokenValue => string.IsNullOrWhiteSpace(CurrencyCode);
 }

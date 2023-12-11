@@ -22,7 +22,7 @@ public class CurrencyConverter : JsonConverter<Currency>
 
     public override void Write(Utf8JsonWriter writer, Currency value, JsonSerializerOptions options)
     {
-        if (value.IsXrpValue)
+        if (value.IsNativeTokenValue)
         {
             writer.WriteStringValue(value.Value);
         }
