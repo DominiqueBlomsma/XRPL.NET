@@ -1,8 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
-using XRPL.NET.Extensions;
+using XRPL.NET.Helpers;
 using XRPL.NET.Models.Methods.Ledger;
-using XRPL.NET.Models.TransactionTypes;
 
 namespace XRPL.NET.Converters;
 
@@ -19,17 +18,7 @@ public class LedgerTransactionConverter : JsonConverter<LedgerTransaction>
         else
         {
             using var jsonDoc = JsonDocument.ParseValue(ref reader);
-
-            var transactionType = jsonDoc.RootElement.GetProperty(nameof(TransactionBase.TransactionType)).GetString();
-            if (transactionType != null)
-            {
-                var type = AttributeExtensions.GetTransactionType(transactionType, false);
-                result.Transaction = (TransactionBase?)jsonDoc.RootElement.Deserialize(type, options);
-            }
-            else
-            {
-                throw new JsonException($"Missing '{nameof(TransactionBase.TransactionType)}' to deserialize the transaction");
-            }
+            result.Transaction = XrplJsonHelper.DeserializeTransaction(jsonDoc, options);
         }
 
         return result;
