@@ -1,12 +1,12 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace XRPL.NET.Models.Methods.Transaction;
+namespace XRPL.NET.Models.TransactionTypes;
 
 /// <summary>
 /// https://docs.xahau.network/technical/protocol-reference/transactions/transaction-types/genesismint-emitted-txn#genesismint-object
 /// </summary>
-public class GenesisMintMetaData
+public class GenesisMintObject
 {
     [JsonPropertyName("GenesisMint")]
-    public GenesisMint GenesisMint { get; set; } = default!;
+    public GenesisMintMetaData GenesisMint { get; set; } = default!;
 }

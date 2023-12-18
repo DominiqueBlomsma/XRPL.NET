@@ -1,9 +1,9 @@
 ﻿using System.Text.Json.Serialization;
 using XRPL.NET.Models.BasicDataTypes;
 
-namespace XRPL.NET.Models.Methods.Transaction;
+namespace XRPL.NET.Models.TransactionTypes;
 
-public class GenesisMint
+public class GenesisMintMetaData
 {
     /// <summary>
     /// The address of the account that will receive the minted native token.
@@ -17,4 +17,15 @@ public class GenesisMint
     [JsonPropertyName("Amount")]
     public Currency Amount { get; set; } = default!;
 
+    /// <summary>
+    /// (Optional) The governance flags associated with the destination account.
+    /// </summary>
+    [JsonPropertyName("GovernanceFlags")]
+    public string? GovernanceFlags { get; set; }
+
+    /// <summary>
+    /// (Optional) The governance marks associated with the destination account.
+    /// </summary>
+    [JsonPropertyName("GovernanceMarks")]
+    public string? GovernanceMarks { get; set; }
 }

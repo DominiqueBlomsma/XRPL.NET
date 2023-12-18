@@ -14,7 +14,7 @@ public class AccountTxTransactionTx : TransactionBase
     public Currency? Amount { get; set; }
 
     [JsonPropertyName("GenesisMints")]
-    public List<GenesisMintMetaData>? GenesisMints { get; set; }
+    public List<GenesisMintObject>? GenesisMints { get; set; }
 
     [JsonPropertyName("EmitDetails")]
     public EmitDetails? EmitDetails { get; set; }
