@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net7.0;net6.0</TargetFrameworks>
+    <TargetFrameworks>net8.0;net7.0;net6.0</TargetFrameworks>
     <LangVersion>11.0</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
@@ -13,7 +13,8 @@
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <Copyright>© 2023 Dominique Blomsma</Copyright>
-    <ComponentsPackageVersion>7.0.0</ComponentsPackageVersion>
+    <ComponentsPackageVersion>8.0.0</ComponentsPackageVersion>
+	<ComponentsPackageVersion Condition="'$(TargetFramework)' == 'net7.0' ">7.0.0</ComponentsPackageVersion>
 	<ComponentsPackageVersion Condition="'$(TargetFramework)' == 'net6.0' ">6.0.0</ComponentsPackageVersion>
   </PropertyGroup>
 
