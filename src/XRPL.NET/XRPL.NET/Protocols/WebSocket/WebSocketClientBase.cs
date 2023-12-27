@@ -8,6 +8,8 @@ namespace XRPL.NET.Protocols.WebSocket;
 internal abstract class WebSocketClientBase : IDisposable
 {
     private readonly SemaphoreSlim? _semaphoreSlim = new(1, 1);
+    private readonly ManualResetEventSlim _manualResetEventSlim = new(false);
+
     protected ClientWebSocket? ClientWebSocket;
     private const int ChunkSize = 1024;
     protected readonly Uri Uri;
@@ -61,13 +63,24 @@ internal abstract class WebSocketClientBase : IDisposable
         if (ClientWebSocket == null)
         {
             await _semaphoreSlim!.WaitAsync(token);
-
-            if (ClientWebSocket == null)
+            try
             {
-                ClientWebSocket = new ClientWebSocket();
-                ClientWebSocket.Options.KeepAliveInterval = TimeSpan.FromSeconds(20);
+                if (ClientWebSocket == null)
+                {
+                    ClientWebSocket = new ClientWebSocket();
+                    ClientWebSocket.Options.KeepAliveInterval = TimeSpan.FromSeconds(20);
+                    _manualResetEventSlim.Reset();
+                }
             }
-            _semaphoreSlim!.Release();
+            finally
+            {
+                _semaphoreSlim.Release();
+            }
+        }
+
+        if (ClientWebSocket.State == WebSocketState.Connecting)
+        {
+            await Task.Run(() => _manualResetEventSlim.Wait(token), token);
         }
 
         if (ClientWebSocket.State == WebSocketState.Closed || ClientWebSocket.State == WebSocketState.Aborted ||
@@ -78,16 +91,21 @@ internal abstract class WebSocketClientBase : IDisposable
         else if (ClientWebSocket.State != WebSocketState.Open && ClientWebSocket.State != WebSocketState.Connecting)
         {
             await _semaphoreSlim!.WaitAsync(token);
-
-            if (ClientWebSocket.State != WebSocketState.Open && ClientWebSocket.State != WebSocketState.Connecting)
+            try
             {
-                Logger?.LogInformation("Start connecting to \"{WebSocketUri}\", with current state: {State}", Uri, ClientWebSocket.State);
+                if (ClientWebSocket.State != WebSocketState.Open && ClientWebSocket.State != WebSocketState.Connecting)
+                {
+                    Logger?.LogInformation("Start connecting to \"{WebSocketUri}\", with current state: {State}", Uri, ClientWebSocket.State);
 
-                await ClientWebSocket.ConnectAsync(Uri, CancellationTokenSource.Token);
-                StartReceivingAsync();
+                    await ClientWebSocket.ConnectAsync(Uri, CancellationTokenSource.Token);
+                    StartReceivingAsync();
+                }
             }
-
-            _semaphoreSlim!.Release();
+            finally
+            {
+                _manualResetEventSlim.Set();
+                _semaphoreSlim!.Release();
+            }
         }
     }
 
