@@ -17,6 +17,9 @@ public class TransactionMetadata
     [JsonPropertyName("AffectedNodes")]
     public JsonArray AffectedNodes { get; set; } = default!; // TODO: Create strongly typed models
 
+    [JsonPropertyName("HookEmissions")]
+    public List<HookEmissionMetadata>? HookEmissions { get; set; }
+
     /// <summary>
     /// When Hooks execute they leave behind information about the status of that execution.
     /// This appears in the Originating Transaction metadata as an sfHookExecutions block.
